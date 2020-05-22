@@ -2,58 +2,57 @@
 #include<stdlib.h>
 
 void* list_create();
-int list_count(void* );
-void list_add(void* , void* );
+int list_count(void*);
+void list_add(void*, void*);
 void main()
 {
-    int a = 5, b = 6, c  = 3;
-    void *x = &a, *y = &b, *z = &c;
+    int item1= 5, item2 = 6, item3  = 3;
     void* list = list_create();
-    list_add(list, x);
-    list_add(list, y);
-    list_add(list, z);
+    list_add(list, &item1);
+    list_add(list, &item2);
+    list_add(list, &item3);
     int length = list_count(list);
-    printf("Length of list is: %d", length);
-    
+    printf("Length of list is: %d\n", length);
+    system("Pause");
 }
-struct element
+struct Element
 {
   void* value;
   int position;
 };
 
-typedef struct element element;  
+typedef struct Element Element;  
 
 void* list_create()
 {
-  element* ret = malloc(sizeof(element));
-  ret->position = -1;
-  return (void*)ret;
+  Element* new = malloc(sizeof(Element));
+  new->position = -1;
+  return new;
 }
 
 void list_add(void* list, void* item)
 {
-  element* impl = (element*)list;
-  int len = list_count(list);
-  int factor = len + 2;
-  impl = realloc(impl, factor*sizeof(element));
-  (impl+len)->position = len + 1;
-  (impl+len)->value = item;
-  (impl+len+1)->position = -1;
+  Element* add = (Element*)list;
+  int length = list_count(list);
+  int factor = length + 2;
+  add = realloc(add, factor*sizeof(Element));
+  (add+length)->position = length + 1;
+  (add+length)->value = item;
+  (add+length+1)->position = -1;
 }
 
 int list_count(void* list)
 {
-  element* x = (element*)list;
-  int end = 0, len = 0;
+  Element* element = (Element*)list;
+  int position = 0, length = 0;
   for(int i = 0; ; i++)
     {
-      end = (x+i)->position;
-      if(end == -1)
+      position = (element+i)->position;
+      if(position == -1)
       {
         break;
       }
-      else len++;
+      else length++;
     }
-    return len;
+    return length;
   }

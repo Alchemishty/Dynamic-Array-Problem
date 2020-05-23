@@ -44,6 +44,7 @@ void* list_create()
 {
   Element* new = malloc(sizeof(Element));
   new->position = -1;
+  new->value = 0;
   return new;
 }
 

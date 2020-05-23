@@ -9,6 +9,14 @@ void* list_get(void*, int);
 void list_destroy(void*);
 void list_remove(void*, void*);
 
+struct Element
+{
+  void* value;
+  int position;
+};
+
+typedef struct Element Element; 
+
 void main()
 {
     int item1= 5, item2 = 6, item3  = 3, item4 = 8;
@@ -23,16 +31,15 @@ void main()
     list_remove(list, &item3);
     length = list_count(list);
     printf("Length of list is: %d\n", length);
+    Element* element = (Element*)list;
+    for(int i = 0; i < length; i++)
+    {
+      int* c = (element+i)->value;
+      printf("\nValue: %d", *c);
+    }
     system("Pause");
 }
-struct Element
-{
-  void* value;
-  int position;
-};
-
-typedef struct Element Element;  
-
+ 
 void* list_create()
 {
   Element* new = malloc(sizeof(Element));

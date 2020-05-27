@@ -39,6 +39,9 @@ void main()
     count = list_count(list);
     printf("\nLength: %d", count);
     
+    int* item_2 = list_get(list, 3);
+    printf("\nItem: %d", *item_2);
+
     printf("\nSucessful run!");
 }
 
@@ -56,12 +59,12 @@ void list_add(void* list, void* item)
 {
     List* lists = (List*)list;
     
-    int size = lists->size;
+    int* size = &lists->size;
     
-    lists->element[size] = item;
+    lists->element[*size] = item;
     lists->size++;
 
-    lists->element = realloc(lists->element, (size+1) * sizeof(void*));
+    lists->element = realloc(lists->element, (*size+1) * sizeof(void*));
      
     printf("\nAdded Successfully");
 }
@@ -86,7 +89,7 @@ void* list_get(void* list, int index)
 
 void list_destroy(void* list)
 {       
-
+    free(list);
 }
 
 void list_remove(void* list, void* item)

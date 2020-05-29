@@ -14,7 +14,7 @@ void test();
 typedef struct List
 {
     int size;
-    void** element;
+    void** elements;
 } List;
 
 
@@ -72,42 +72,39 @@ void test()
 
 void* list_create()
 {
-    List* new = malloc(sizeof(List));
+    List* newList = malloc(sizeof(List));
     
-    new->size = 0;
-    new->element = malloc(sizeof(void*));
+    newList->size = 0;
+    newList->elements = malloc(sizeof(void*));
 
-    return new;
+    return newList;
 }
 
 void list_add(void* list, void* item)
 {
-    List* lists = (List*)list;
+    List* inventory = (List*)list;
     
-    int* size = &lists->size;
     
-    lists->element[*size] = item;
-    lists->size++;
+    inventory->elements[inventory->size] = item;
+    inventory->size++;
 
-    lists->element = realloc(lists->element, (*size+1) * sizeof(void*));
-     
-    printf("\nAdded Successfully");
+    inventory->elements = realloc(inventory->elements, (inventory->size + 1) * sizeof(void*));
 }
 
 int list_count(void* list)
 {   
-    List* lists = (List*)list;
+    List* inventory = (List*)list;
 
-    int count = lists->size;
+    int count = inventory->size;
     
     return count;
 }
 
 void* list_get(void* list, int index)
 {
-    List* lists = (List*)list;
+    List* inventory = (List*)list;
 
-    void* item = lists->element[index];
+    void* item = inventory->elements[index];
     
     return item;  
 }
@@ -119,7 +116,7 @@ void list_destroy(void* list)
 
 void list_remove(void* list, void* item)
 {
-    List* lists = (List*)list;
+    List* inventory = (List*)list;
 
     int count = list_count(list);
 
@@ -127,7 +124,7 @@ void list_remove(void* list, void* item)
 
     for (int i = 0; i < count; i++)
     {
-        if (lists->element[i] == item)
+        if (inventory->elements[i] == item)
         {
             itemFound = true;
             
@@ -135,24 +132,20 @@ void list_remove(void* list, void* item)
             
             for (int j = 0; j < steps; j++)
             {
-                void* item = lists->element[position];
+                void* item = inventory->elements[position];
                 
-                lists->element[position] = lists->element[position+1];
-                lists->element[position+1] = item;
+                inventory->elements[position] = inventory->elements[position+1];
+                inventory->elements[position+1] = item;
 
                 position++;
-                
             }
 
-            int* size = &lists->size;
-            lists->size--;
+            inventory->size--;
 
-            lists->element = realloc(lists->element, (*size) * sizeof(void*));
+            inventory->elements = realloc(inventory->elements, (inventory->size) * sizeof(void*));
 
-            printf("\nItem removed succesfully!");
             break;
         }
-        
     }
 
     if (!itemFound)
